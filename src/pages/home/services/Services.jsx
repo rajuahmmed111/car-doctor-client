@@ -1,4 +1,18 @@
+import { useEffect, useState } from "react";
+
 const Services = () => {
+  const [services, setServices] = useState();
+
+  useEffect(() => {
+    fetch("services.json")
+      .then((response) => response.json())
+      .then((data) => setServices(data))
+      .catch((error) => console.error("Error:", error));
+  }, []);
+
+  console.log(services);
+  
+
   return (
     <div className="mt-10 space-y-4">
       <h3 className="text-2xl text-orange-600 font-bold text-center">
