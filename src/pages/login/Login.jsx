@@ -3,7 +3,7 @@ import loginImg from "../../assets/images/login/login.svg";
 
 const Login = () => {
 
-    const handleSubmit = (e) => {
+    const handleSignIn = (e) => {
       e.preventDefault();
     };
 
@@ -15,7 +15,7 @@ const Login = () => {
         </div>
 
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-sm border-2 border-[#E8E8E8]">
-          <form onSubmit={handleSubmit} className="card-body">
+          <form onSubmit={handleSignIn} className="card-body">
             <h1 className="text-5xl font-bold text-center my-8">Login</h1>
             <div className="form-control">
               <label className="label">
@@ -54,7 +54,7 @@ const Login = () => {
               />
             </div>
           </form>
-          <p className="text-center">New to Car Doctors? <Link className="text-lg font-semibold text-[#FF3811]">Sign Up</Link></p>
+          <p className="text-center">New to Car Doctors? <Link to="/signup" className="text-lg font-semibold text-[#FF3811]">Sign Up</Link></p>
         </div>
       </div>
     </div>
