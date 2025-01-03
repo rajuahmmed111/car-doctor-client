@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ServicesCard from "./ServicesCard";
 
 const Services = () => {
   const [services, setServices] = useState();
@@ -9,9 +10,6 @@ const Services = () => {
       .then((data) => setServices(data))
       .catch((error) => console.error("Error:", error));
   }, []);
-
-  console.log(services);
-  
 
   return (
     <div className="mt-10 space-y-4">
@@ -25,6 +23,12 @@ const Services = () => {
           quaerat
         </p>
         <p>veritatis, reprehenderit id mollitia maxime dolor!</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services?.map((service) => (
+          <ServicesCard key={service._id} service={service}></ServicesCard>
+        ))}
       </div>
     </div>
   );
