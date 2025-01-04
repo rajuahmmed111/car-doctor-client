@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 // eslint-disable-next-line react/prop-types
 const ServicesCard = ({ service }) => {
   // eslint-disable-next-line react/prop-types
-  const { title, img, price } = service;
+  const { _id, title, img, price } = service;
 
   return (
     <div className="card bg-base-100 w-96 shadow-sm border-2 border-[#E8E8E8]">
@@ -12,7 +14,9 @@ const ServicesCard = ({ service }) => {
         <h2 className="card-title text-3xl">{title}</h2>
         <p className="text-2xl font-bold">Price {price}</p>
         <div className="card-actions">
-          <button className="btn bg-orange-600 text-white">Buy Now</button>
+          <Link to={`/checkout/${_id}`}>
+            <button className="btn bg-orange-600 text-white">Book Now</button>
+          </Link>
         </div>
       </div>
     </div>
