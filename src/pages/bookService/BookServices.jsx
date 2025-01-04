@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const BookServices = () => {
   const service = useLoaderData();
@@ -29,17 +30,44 @@ const BookServices = () => {
     };
 
     fetch("http://localhost:5000/bookings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(booking),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  };
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(booking),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+  
+          // Show SweetAlert success message
+          if (data.success) {
+            Swal.fire({
+              title: "Booking Confirmed!",
+              text: "Your service has been successfully booked.",
+              icon: "success",
+              confirmButtonText: "OK",
+              confirmButtonColor: "#f97316", // Orange color
+            });
+          } else {
+            Swal.fire({
+              title: "Booking Failed!",
+              text: data.message || "Something went wrong. Please try again.",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to book the service. Please try again.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        });
+    };
 
   return (
     <div>
