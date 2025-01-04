@@ -30,44 +30,33 @@ const BookServices = () => {
     };
 
     fetch("http://localhost:5000/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(booking),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-  
-          // Show SweetAlert success message
-          if (data.success) {
-            Swal.fire({
-              title: "Booking Confirmed!",
-              text: "Your service has been successfully booked.",
-              icon: "success",
-              confirmButtonText: "OK",
-              confirmButtonColor: "#f97316", // Orange color
-            });
-          } else {
-            Swal.fire({
-              title: "Booking Failed!",
-              text: data.message || "Something went wrong. Please try again.",
-              icon: "error",
-              confirmButtonText: "OK",
-            });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.success !== false) {
+          // Treat undefined as success
           Swal.fire({
-            title: "Error!",
-            text: "Failed to book the service. Please try again.",
+            title: "Booking Confirmed!",
+            text: "Your service has been successfully booked.",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#f97316", // Orange color
+          });
+        } else {
+          Swal.fire({
+            title: "Booking Failed!",
+            text: data.message || "Something went wrong. Please try again.",
             icon: "error",
             confirmButtonText: "OK",
           });
-        });
-    };
+        }
+      });
+  };
 
   return (
     <div>
