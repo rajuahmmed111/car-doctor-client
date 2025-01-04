@@ -1,9 +1,27 @@
 import { Link } from "react-router-dom";
 import SignUpImg from "../../assets/images/login/login.svg";
+import { useContext } from "react";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const SignUP = () => {
+  const { createUser } = useContext(AuthContext);
+
   const handleSignUp = (e) => {
     e.preventDefault();
+
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log("User created successfully!", user);
+      })
+      .catch((err) => {
+        console.error("Error creating user:", err);
+      });
   };
 
   return (
@@ -16,6 +34,7 @@ const SignUP = () => {
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-sm border-2 border-[#E8E8E8]">
           <form onSubmit={handleSignUp} className="card-body">
             <h1 className="text-5xl font-bold text-center my-8">Sign Up</h1>
+
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -28,6 +47,7 @@ const SignUP = () => {
                 required
               />
             </div>
+
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -58,6 +78,7 @@ const SignUP = () => {
                 </a>
               </label>
             </div>
+
             <div className="form-control mt-6">
               <input
                 type="submit"
@@ -66,7 +87,8 @@ const SignUP = () => {
               />
             </div>
           </form>
-          <p className="text-center">
+
+          <p className="text-center  mb-6">
             Already have an account?{" "}
             <Link to="/login" className="text-lg font-semibold text-[#FF3811]">
               Sign In

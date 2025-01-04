@@ -1,11 +1,27 @@
 import { Link } from "react-router-dom";
 import loginImg from "../../assets/images/login/login.svg";
+import { useContext } from "react";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Login = () => {
+  const { signIn } = useContext(AuthContext);
 
-    const handleSignIn = (e) => {
-      e.preventDefault();
-    };
+  const handleSignIn = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    signIn(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((err) => {
+        console.error("Error creating user:", err);
+      });
+  };
 
   return (
     <div className="hero min-h-screen mt-8">
@@ -54,7 +70,12 @@ const Login = () => {
               />
             </div>
           </form>
-          <p className="text-center">New to Car Doctors? <Link to="/signup" className="text-lg font-semibold text-[#FF3811]">Sign Up</Link></p>
+          <p className="text-center mb-6">
+            New to Car Doctors?{" "}
+            <Link to="/signup" className="text-lg font-semibold text-[#FF3811]">
+              Sign Up
+            </Link>
+          </p>
         </div>
       </div>
     </div>
