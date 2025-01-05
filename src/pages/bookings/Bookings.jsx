@@ -36,7 +36,10 @@ const Bookings = () => {
         .then((data) => {
           if (data.deletedCount > 0) {
             const remaining = bookings.filter((booking) => booking._id !== id);
-            setBookings(remaining);
+            const updated = bookings.find((booking) =>  booking._id === id);
+            updated.status = "confirm";
+            const newBookings = [updated, ...remaining];
+            setBookings(newBookings);
 
             // Show a toast notification
             toast.success("Booking deleted successfully!");
