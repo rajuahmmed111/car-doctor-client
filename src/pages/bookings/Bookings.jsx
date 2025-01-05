@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import BookingsRow from "./BookingsRow";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
@@ -12,8 +14,7 @@ const Bookings = () => {
   useEffect(() => {
     fetch(url)
       .then((response) => response.json())
-      .then((data) => setBookings(data))
-      .catch((error) => console.error("Error:", error));
+      .then((data) => setBookings(data));
   }, []);
 
   const handleSelectAll = (e) => {
@@ -22,6 +23,30 @@ const Bookings = () => {
       setSelectedBookings(allBookingIds);
     } else {
       setSelectedBookings([]);
+    }
+  };
+
+  const handleDelete = (id) => {
+    const proceed = confirm("Are you sure you want to delete this booking?");
+    if (proceed) {
+      fetch(`http://localhost:5000/bookings/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.deletedCount > 0) {
+            // Filter out the deleted booking
+            const remaining = bookings.filter((booking) => booking._id !== id);
+            setBookings(remaining);
+
+            // Show a toast notification
+            toast.success("Booking deleted successfully!");
+          }
+        })
+        .catch(() => {
+          // Show an error toast if something goes wrong
+          toast.error("Failed to delete the booking. Please try again.");
+        });
     }
   };
 
@@ -65,11 +90,15 @@ const Bookings = () => {
                 key={booking._id}
                 booking={booking}
                 isSelected={selectedBookings.includes(booking._id)}
+                handleDelete={handleDelete}
               />
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Toast container */}
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };

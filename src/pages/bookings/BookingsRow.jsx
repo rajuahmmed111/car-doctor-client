@@ -1,27 +1,6 @@
 /* eslint-disable react/prop-types */
-const BookingsRow = ({ booking, isSelected }) => {
+const BookingsRow = ({ booking, isSelected, handleDelete }) => {
   const { _id, name, title, email, date, img, price } = booking;
-
-  const handleDelete = (id) => {
-    const proceed = confirm("Are you sure you want to delete this booking?");
-    if (proceed) {
-      fetch(`http://localhost:5000/bookings/${id}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          console.log("Delete Response:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error.message);
-        });
-    }
-  };
 
   return (
     <tr
