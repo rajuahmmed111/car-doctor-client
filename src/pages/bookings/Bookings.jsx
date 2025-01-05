@@ -15,7 +15,7 @@ const Bookings = () => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => setBookings(data));
-  }, []);
+  }, [url]);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -50,8 +50,12 @@ const Bookings = () => {
   };
 
   const handleBookingConfirm = (id) => {
-    fetch(`http://localhost:5000/bookings/${id}/confirm`, {
-      method: "PUT",
+    fetch(`http://localhost:5000/bookings/${id}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: "confirm" }),
     })
       .then((res) => res.json())
       .then((data) => {
