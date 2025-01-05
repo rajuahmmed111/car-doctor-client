@@ -39,7 +39,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 h-28 mb-4">
+    <div className="navbar bg-base-100 h-28 my-4">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -65,7 +65,7 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/" className="w-14">
           <img src={logo} alt="" />
         </Link>
       </div>
@@ -73,7 +73,9 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <button className="btn btn-outline btn-warning">Appointment</button>
+        <button className="btn border-[#FF3811] text-[#FF3811] bg-white hover:bg-[#FF3811] hover:text-white">
+          Appointment
+        </button>
       </div>
     </div>
   );
