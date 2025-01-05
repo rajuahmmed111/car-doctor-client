@@ -49,6 +49,28 @@ const Bookings = () => {
     }
   };
 
+  const handleBookingConfirm = (id) => {
+    fetch(`http://localhost:5000/bookings/${id}/confirm`, {
+      method: "PUT",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          const updated = bookings.map((booking) =>
+            booking._id === id ? { ...booking, confirmed: true } : booking
+          );
+          setBookings(updated);
+
+          // Show a toast notification
+          toast.success("Booking confirmed successfully!");
+        }
+      })
+      .catch(() => {
+        // Show an error toast if something goes wrong
+        toast.error("Failed to confirm the booking. Please try again.");
+      });
+  };
+
   return (
     <div className="flex flex-col items-center mt-8 px-4">
       <h3 className="text-2xl font-bold text-center text-[#FF3811] mb-6">
@@ -90,6 +112,7 @@ const Bookings = () => {
                 booking={booking}
                 isSelected={selectedBookings.includes(booking._id)}
                 handleDelete={handleDelete}
+                handleBookingConfirm={handleBookingConfirm}
               />
             ))}
           </tbody>
