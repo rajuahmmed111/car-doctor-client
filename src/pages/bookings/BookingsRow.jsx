@@ -1,6 +1,17 @@
 /* eslint-disable react/prop-types */
 const BookingsRow = ({ booking, isSelected }) => {
-  const { name, title, email, date, img, price } = booking;
+  const { _id, name, title, email, date, img, price } = booking;
+
+  const handleDelete = (id) => {
+    const proceed = confirm("Are you sure you want to delete this booking");
+    if (proceed) {
+      fetch(``)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
+  };
 
   return (
     <tr
@@ -9,25 +20,27 @@ const BookingsRow = ({ booking, isSelected }) => {
       } text-sm md:text-base`}
     >
       <td className="p-2">
-        <label>
-          <button className="btn btn-circle btn-outline btn-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </label>
+        <button
+          onClick={() => handleDelete(_id)}
+          className="btn btn-circle btn-outline btn-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </td>
+
       <td className="p-2">
         <div className="avatar">
           <div className="w-16 rounded-full border border-gray-200 mx-auto">
