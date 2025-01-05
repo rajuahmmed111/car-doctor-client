@@ -1,6 +1,11 @@
 /* eslint-disable react/prop-types */
-const BookingsRow = ({ booking, isSelected, handleDelete ,handleBookingConfirm}) => {
-  const { _id, name, title, email, date, img, price } = booking;
+const BookingsRow = ({
+  booking,
+  isSelected,
+  handleDelete,
+  handleBookingConfirm,
+}) => {
+  const { _id, name, title, email, date, img, price, status } = booking;
 
   return (
     <tr
@@ -43,9 +48,16 @@ const BookingsRow = ({ booking, isSelected, handleDelete ,handleBookingConfirm})
       <td className="p-2">{date}</td>
       <td className="p-2">${price}</td>
       <td className="p-2">
-        <button onClick={() => handleBookingConfirm(_id)} className="btn btn-xs bg-[#FF3811] text-white hover:bg-[#FF3811] hover:shadow-md">
-          Confirm
-        </button>
+        {status === "confirm" ? (
+          <span className="font-bold">Confirmed</span>
+        ) : (
+          <button
+            onClick={() => handleBookingConfirm(_id)}
+            className="btn btn-xs bg-[#FF3811] text-white hover:bg-[#FF3811] hover:shadow-md"
+          >
+            Confirm
+          </button>
+        )}
       </td>
     </tr>
   );
