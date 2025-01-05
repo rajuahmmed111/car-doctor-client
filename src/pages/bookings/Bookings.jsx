@@ -35,7 +35,6 @@ const Bookings = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.deletedCount > 0) {
-            // Filter out the deleted booking
             const remaining = bookings.filter((booking) => booking._id !== id);
             setBookings(remaining);
 
