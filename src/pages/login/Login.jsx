@@ -1,15 +1,14 @@
-// import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/images/login/login.svg";
 import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
 
-  // const location = useLocation();
-  // const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -22,7 +21,7 @@ const Login = () => {
       .then((result) => {
         const loggedInUser = result.user;
         console.log(loggedInUser);
-        // navigate(location?.state ? location?.state : "/");
+        navigate(location?.state ? location?.state : "/");
 
         // get access token
         const user = { email };
