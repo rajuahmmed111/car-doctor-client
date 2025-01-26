@@ -7,6 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import axios from "axios";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
@@ -27,7 +28,6 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
- 
   const logOut = () => {
     setUser(null);
     setLoading(true);
@@ -36,8 +36,21 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      const userEmail = currentUser?.email || user?.email;
+
       setUser(currentUser);
       setLoading(false);
+
+      if (currentUser) {
+        const loggedUser = { email: userEmail };
+        axios
+          .post("http://localhost:5000/jwt", loggedUser, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log("token response", res.data);
+          });
+      }
     });
 
     return () => {
