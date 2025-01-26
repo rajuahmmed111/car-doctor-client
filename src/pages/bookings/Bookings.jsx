@@ -3,6 +3,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import BookingsRow from "./BookingsRow";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
@@ -12,9 +13,14 @@ const Bookings = () => {
   const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => setBookings(data));
+    axios.get(url, { withCredentials: true })
+    .then((res) => {
+      setBookings(res.data);
+    });
+
+    // fetch(url)
+    //   .then((response) => response.json())
+    //   .then((data) => setBookings(data));
   }, [url]);
 
   const handleSelectAll = (e) => {
@@ -36,7 +42,7 @@ const Bookings = () => {
         .then((data) => {
           if (data.deletedCount > 0) {
             const remaining = bookings.filter((booking) => booking._id !== id);
-            const updated = bookings.find((booking) =>  booking._id === id);
+            const updated = bookings.find((booking) => booking._id === id);
             updated.status = "confirm";
             const newBookings = [updated, ...remaining];
             setBookings(newBookings);
