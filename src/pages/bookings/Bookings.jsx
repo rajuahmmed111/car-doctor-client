@@ -1,27 +1,31 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../provider/AuthProvider";
 import BookingsRow from "./BookingsRow";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+// import axios from "axios";
+import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Bookings = () => {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [selectedBookings, setSelectedBookings] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
-  const url = `http://localhost:5000/bookings?email=${user?.email}`;
+  const url = `/bookings?email=${user?.email}`;
 
   useEffect(() => {
-    axios.get(url, { withCredentials: true })
-    .then((res) => {
-      setBookings(res.data);
-    });
+    // axios.get(url, { withCredentials: true }).then((res) => {
+    //   setBookings(res.data);
+    // });
+
+    axiosSecure.get(url).then((res) => setBookings(res.data));
 
     // fetch(url)
     //   .then((response) => response.json())
     //   .then((data) => setBookings(data));
-  }, [url]);
+  }, [url, axiosSecure]);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
